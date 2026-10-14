@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Polish — Jadę na urlop</title>
+<style>
+:root {
+  --bg:#10101f;
+  --panel:#191a31;
+  --ink:#f4f1ff;
+  --muted:#b9b5d4;
+  --violet:#a78bfa;
+  --pink:#e8a6dc;
+  --gold:#f2cc8f;
+  --line:#39375c;
+  --good:#91dfb5;
+  --bad:#ffb4b4;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:
+    radial-gradient(ellipse at 15% 0%,#30244d 0,transparent 38%),
+    radial-gradient(ellipse at 100% 15%,#192c4d 0,transparent 35%),
+    var(--bg);
+  color:var(--ink);
+  font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+main { max-width:900px; margin:auto; padding:20px 16px 60px; }
+.hero {
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:28px 24px;
+  background:linear-gradient(135deg,#24203e,#171c34 65%,#24344a);
+  position:relative;
+  overflow:hidden;
+}
+.kicker {
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:.75rem;
+  font-weight:800;
+}
+.hero h1 {
+  font:clamp(2rem,7vw,3.4rem)/1.05 Georgia,serif;
+  margin:.45rem 0;
+  color:#fff;
+}
+.hero p { max-width:650px; color:#dedaf2; }
+.orbit {
+  position:absolute;
+  right:-25px;
+  top:24px;
+  width:130px;
+  height:130px;
+  border:1px solid #8e7cc5;
+  border-radius:50%;
+  opacity:.6;
+}
+.orbit:before,.orbit:after {
+  content:"";
+  position:absolute;
+  border:1px solid #c6a9e8;
+  border-radius:50%;
+  inset:20px -15px;
+  transform:rotate(35deg);
+}
+.orbit:after { inset:43px -5px; transform:rotate(-35deg); }
+.pill {
+  display:inline-block;
+  border:1px solid #5b4e80;
+  border-radius:999px;
+  padding:4px 10px;
+  color:#e3d7ff;
+  font-size:.82rem;
+  margin:4px 5px 0 0;
+}
+.progress-wrap { margin:18px 0 26px; }
+.progress-label {
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:.9rem;
+}
+.track {
+  height:7px;
+  background:#292744;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:7px;
+}
+.fill {
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--violet),var(--pink),var(--gold));
+  transition:width .25s;
+}
+section {
+  background:rgba(25,26,49,.94);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px;
+  margin:18px 0;
+  box-shadow:0 10px 30px #05051025;
+}
+.section-head { display:flex; gap:12px; align-items:flex-start; }
+.num {
+  flex:0 0 38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#352c58;
+  color:var(--gold);
+  font-weight:800;
+}
+.section-head h2 {
+  font:1.5rem/1.2 Georgia,serif;
+  margin:2px 0 4px;
+}
+.time { font-size:.78rem; color:var(--muted); }
+.instructions { color:#d0cce6; margin:12px 0; }
+.question { padding:14px 0; border-top:1px solid #343251; }
+.question:first-of-type { border-top:0; }
+.question p { margin:0 0 8px; }
+.options { display:grid; gap:8px; }
+.opt {
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+  padding:9px 11px;
+  border:1px solid #454267;
+  border-radius:10px;
+  cursor:pointer;
+  background:#20213b;
+}
+.opt:hover { border-color:var(--violet); }
+input[type=radio],input[type=checkbox] {
+  accent-color:var(--violet);
+  margin-top:5px;
+}
+input[type=text],textarea,select {
+  width:100%;
+  background:#111226;
+  color:var(--ink);
+  border:1px solid #514c78;
+  border-radius:10px;
+  padding:11px 12px;
+  font:inherit;
+}
+textarea { min-height:100px; resize:vertical; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.wordbank {
+  padding:12px;
+  border-radius:12px;
+  background:#121329;
+  border:1px dashed #6c5d99;
+  color:#e5dafa;
+}
+.btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+.btn {
+  border:0;
+  border-radius:12px;
+  padding:11px 16px;
+  font-weight:800;
+  font-size:.95rem;
+  cursor:pointer;
+}
+.primary {
+  background:linear-gradient(135deg,var(--violet),var(--pink));
+  color:#171326;
+}
+.secondary {
+  background:#2c2b49;
+  color:var(--ink);
+  border:1px solid #4c4771;
+}
+.feedback { margin-top:12px; color:var(--muted); min-height:24px; }
+.score { font:1.2rem Georgia,serif; color:var(--gold); }
+.small { font-size:.9rem; color:var(--muted); }
+.success { color:var(--good); }
+.error { color:var(--bad); }
+.footer { text-align:center; color:var(--muted); font-size:.82rem; margin-top:26px; }
+
+@media(max-width:600px) {
+  main { padding:12px 10px 40px; }
+  .hero { padding:23px 18px; }
+  .orbit { opacity:.25; width:100px; height:100px; }
+  .row2 { grid-template-columns:1fr; }
+  section { padding:17px; }
+  .section-head h2 { font-size:1.35rem; }
+}
+</style>
+</head>
+
+<body>
+<main>
+<header class="hero">
+  <div class="orbit" aria-hidden="true"></div>
+  <div class="kicker">Orbit Polish · podróże i odkrywanie</div>
+  <h1>Jadę na urlop!</h1>
+  <p>Mała wyprawa językowa: opowiedz o podróży, wybierz transport, zaplanuj trasę i używaj polskich przyimków.</p>
+  <span class="pill">Poziom: A2 / A2+</span>
+  <span class="pill">35–50 minut</span>
+  <span class="pill">Ćwiczenia interaktywne</span>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Twój postęp</span>
+    <span id="progressText">0 z 6 części</span>
+  </div>
+  <div class="track"><div class="fill" id="progressFill"></div></div>
+</div>
+
+<form id="lessonForm">
+
+<section data-part="1">
+  <div class="section-head">
+    <div class="num">01</div>
+    <div>
+      <h2>Rozgrzewka: plan podróży</h2>
+      <div class="time">4–5 min</div>
+    </div>
+  </div>
+  <p class="instructions">Odpowiedz krótko pełnym zdaniem. Nie musi być prawdziwa — możesz wymyślić podróż.</p>
+  <div class="question">
+    <label for="warm1">Dokąd chcesz pojechać na urlop?</label>
+    <input id="warm1" name="Rozgrzewka — dokąd" type="text" placeholder="Chcę pojechać do…">
+  </div>
+  <div class="question">
+    <label for="warm2">Jak lubisz podróżować i dlaczego?</label>
+    <textarea id="warm2" name="Rozgrzewka — transport" placeholder="Lubię podróżować… ponieważ…"></textarea>
+  </div>
+</section>
+
+<section data-part="2">
+  <div class="section-head">
+    <div class="num">02</div>
+    <div>
+      <h2>Słownictwo w drodze</h2>
+      <div class="time">6–7 min</div>
+    </div>
+  </div>
+  <p class="instructions">Wybierz najlepsze słowo lub wyrażenie.</p>
+
+  <div class="question">
+    <p><b>1.</b> Kupuję bilet i jadę na dworzec. Najprawdopodobniej podróżuję…</p>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="pociągiem"> pociągiem</label>
+      <label class="opt"><input type="radio" name="q1" value="rowerem"> rowerem</label>
+      <label class="opt"><input type="radio" name="q1" value="pieszo"> pieszo</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <p><b>2.</b> Jeśli chcę zobaczyć zabytki i muzea, mogę zwiedzać…</p>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="miasto"> miasto</label>
+      <label class="opt"><input type="radio" name="q2" value="walizkę"> walizkę</label>
+      <label class="opt"><input type="radio" name="q2" value="bilet"> bilet</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <p><b>3.</b> Przed wyjazdem pakuję ubrania do…</p>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="walizki"> walizki</label>
+      <label class="opt"><input type="radio" name="q3" value="peronu"> peronu</label>
+      <label class="opt"><input type="radio" name="q3" value="kierunku"> kierunku</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <p><b>4.</b> Miejsce, w którym śpi turysta, to…</p>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="nocleg"> nocleg</label>
+      <label class="opt"><input type="radio" name="q4" value="rozkład"> rozkład</label>
+      <label class="opt"><input type="radio" name="q4" value="skrzyżowanie"> skrzyżowanie</label>
+    </div>
+  </div>
+
+  <div class="btnrow">
+    <button type="button" class="btn secondary" onclick="checkMC()">Sprawdź słownictwo</button>
+  </div>
+  <div id="mcFeedback" class="feedback" aria-live="polite"></div>
+</section>
+
+<section data-part="3">
+  <div class="section-head">
+    <div class="num">03</div>
+    <div>
+      <h2>Dokąd? Skąd? Gdzie?</h2>
+      <div class="time">7–8 min</div>
+    </div>
+  </div>
+  <p class="instructions">Uzupełnij zdania odpowiednim przyimkiem: <b>do, z, na, w, nad</b>. Zwróć uwagę, czy opisujemy ruch czy miejsce.</p>
+  <div class="wordbank">do · z · na · w · nad</div>
+
+  <div class="question">
+    <label for="prep1">1. W lipcu jadę ___ góry.</label>
+    <input id="prep1" name="Przyimek 1" type="text" placeholder="przyimek">
+  </div>
+  <div class="question">
+    <label for="prep2">2. W sobotę idziemy ___ spacer po starym mieście.</label>
+    <input id="prep2" name="Przyimek 2" type="text" placeholder="przyimek">
+  </div>
+  <div class="question">
+    <label for="prep3">3. Mieszkamy ___ hotelu blisko centrum.</label>
+    <input id="prep3" name="Przyimek 3" type="text" placeholder="przyimek">
+  </div>
+  <div class="question">
+    <label for="prep4">4. Wracamy ___ Krakowa wieczorem.</label>
+    <input id="prep4" name="Przyimek 4" type="text" placeholder="przyimek">
+  </div>
+  <div class="question">
+    <label for="prep5">5. Latem odpoczywamy ___ morzem.</label>
+    <input id="prep5" name="Przyimek 5" type="text" placeholder="przyimek">
+  </div>
+  <div class="question">
+    <label for="prep6">6. Jutro jadę ___ Warszawy, a potem ___ Poznania.</label>
+    <input id="prep6" name="Przyimek 6" type="text" placeholder="dwa przyimki, np. do, do">
+  </div>
+
+  <div class="btnrow">
+    <button type="button" class="btn secondary" onclick="checkPrep()">Sprawdź przyimki</button>
+  </div>
+  <div id="prepFeedback" class="feedback" aria-live="polite"></div>
+</section>
+
+<section data-part="4">
+  <div class="section-head">
+    <div class="num">04</div>
+    <div>
+      <h2>Mini-dialog: na dworcu</h2>
+      <div class="time">6–7 min</div>
+    </div>
+  </div>
+  <p class="instructions">Wpisz brakujące słowa. Użyj: <b>peron, bilet, odjeżdża, opóźniony, przesiąść się</b>.</p>
+
+  <div class="question">
+    <label for="dialog1">— Dzień dobry, poproszę ___ do Gdańska.</label>
+    <input id="dialog1" name="Dialog 1" type="text">
+  </div>
+  <div class="question">
+    <label for="dialog2">— Pociąg ___ o 10:25 z peronu trzeciego.</label>
+    <input id="dialog2" name="Dialog 2" type="text">
+  </div>
+  <div class="question">
+    <label for="dialog3">— Czy pociąg jest punktualny?</label>
+    <input id="dialog3" name="Dialog 3" type="text" placeholder="Jest… / Nie, jest…">
+  </div>
+  <div class="question">
+    <label for="dialog4">— Czy muszę ___ w Warszawie?</label>
+    <input id="dialog4" name="Dialog 4" type="text">
+  </div>
+  <div class="question">
+    <label for="dialog5">— Nie, to pociąg bezpośredni. Proszę iść na ___ trzeci.</label>
+    <input id="dialog5" name="Dialog 5" type="text">
+  </div>
+</section>
+
+<section data-part="5">
+  <div class="section-head">
+    <div class="num">05</div>
+    <div>
+      <h2>Plan idealnego urlopu</h2>
+      <div class="time">7–9 min</div>
+    </div>
+  </div>
+  <p class="instructions">Napisz 5–7 zdań o wyjeździe. Uwzględnij: dokąd jedziesz, czym podróżujesz, gdzie nocujesz, co chcesz zobaczyć i co robisz, jeśli pogoda jest zła.</p>
+  <textarea name="Plan urlopu" id="plan" placeholder="W tym roku chcę pojechać…"></textarea>
+  <p class="small">Spróbuj użyć co najmniej trzech wyrażeń: <i>jadę do…, jestem w…, idę na…, wracam z…, mieszkam w…, zwiedzam…</i></p>
+</section>
+
+<section data-part="6">
+  <div class="section-head">
+    <div class="num">06</div>
+    <div>
+      <h2>Na koniec: co pamiętasz?</h2>
+      <div class="time">3–4 min</div>
+    </div>
+  </div>
+  <p class="instructions">Zapisz jedno nowe słowo, jedną rzecz, która była łatwa, i jedno pytanie, które chcesz omówić na lekcji.</p>
+  <div class="row2">
+    <div>
+      <label for="newword">Nowe słowo</label>
+      <input id="newword" name="Nowe słowo" type="text">
+    </div>
+    <div>
+      <label for="question">Pytanie do nauczyciela</label>
+      <input id="question" name="Pytanie do nauczyciela" type="text">
+    </div>
+  </div>
+  <div class="question">
+    <label for="easy">Co było łatwe lub trudne?</label>
+    <textarea id="easy" name="Refleksja" placeholder="Łatwe było… Trudne było…"></textarea>
+  </div>
+</section>
+
+<div class="btnrow">
+  <button type="button" class="btn primary" onclick="showScore()">Zobacz wynik</button>
+  <button type="button" class="btn secondary" onclick="submitAnswers()">Wyślij odpowiedzi nauczycielowi</button>
+  <button type="reset" class="btn secondary" onclick="resetAll()">Wyczyść</button>
+</div>
+<div id="finalFeedback" class="feedback" aria-live="polite"></div>
+</form>
+
+<p class="footer">Orbit Polish · ucz się przez odkrywanie · Powodzenia, Ava!</p>
+</main>
+
+<script>
+const correct = {
+  q1:"pociągiem",
+  q2:"miasto",
+  q3:"walizki",
+  q4:"nocleg"
+};
+const totalParts = 6;
+
+function answeredParts() {
+  let n = 0;
+  document.querySelectorAll('[data-part]').forEach(s => {
+    const fields = [...s.querySelectorAll('input,textarea,select')];
+    const has = fields.some(f =>
+      f.type === "radio" || f.type === "checkbox"
+        ? f.checked
+        : f.value.trim() !== ""
+    );
+    if (has) n++;
+  });
+  return n;
+}
+
+function updateProgress() {
+  let n = answeredParts();
+  document.getElementById('progressText').textContent =
+    n + ' z ' + totalParts + ' części';
+  document.getElementById('progressFill').style.width =
+    (n / totalParts * 100) + '%';
+}
+
+document.getElementById('lessonForm').addEventListener('input', updateProgress);
+document.getElementById('lessonForm').addEventListener('change', updateProgress);
+
+function checkMC() {
+  let score = 0, answered = 0;
+  for (const [k,v] of Object.entries(correct)) {
+    const el = document.querySelector('input[name="' + k + '"]:checked');
+    if (el) {
+      answered++;
+      if (el.value === v) score++;
+    }
+  }
+  const box = document.getElementById('mcFeedback');
+  box.innerHTML =
+    '<span class="score">Wynik: ' + score + '/4</span> · Odpowiedzi: ' +
+    answered + '/4' + (score === 4 ? ' — świetnie!' : '');
+}
+
+function norm(s) {
+  return s.toLowerCase().trim()
+    .replace(/[.!?]/g,'')
+    .replace(/\s+/g,' ');
+}
+
+function checkPrep() {
+  const groups = [
+    ['na'], ['na'], ['w'], ['z'], ['nad'], ['do do','do, do']
+  ];
+  let score = 0;
+  groups.forEach((opts,i) => {
+    let v = norm(document.getElementById('prep' + (i+1)).value)
+      .replace(/,/g,' ');
+    if (opts.some(o => norm(o).replace(/,/g,' ') === v)) score++;
+  });
+  document.getElementById('prepFeedback').innerHTML =
+    '<span class="score">Wynik: ' + score + '/6</span> · Sprawdź też, czy pamiętasz różnicę między ruchem (dokąd/skąd) a miejscem (gdzie).';
+}
+
+function showScore() {
+  let score = 0, answered = 0;
+  for (const [k,v] of Object.entries(correct)) {
+    const el = document.querySelector('input[name="' + k + '"]:checked');
+    if (el) {
+      answered++;
+      if (el.value === v) score++;
+    }
+  }
+  document.getElementById('finalFeedback').innerHTML =
+    '<span class="score">Słownictwo: ' + score + '/4</span><br>' +
+    'Wypełnione części: ' + answeredParts() +
+    '/6. Dokończ otwarte odpowiedzi i wyślij je nauczycielowi.';
+  document.getElementById('finalFeedback')
+    .scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetAll() {
+  setTimeout(() => {
+    document.getElementById('mcFeedback').textContent = '';
+    document.getElementById('prepFeedback').textContent = '';
+    document.getElementById('finalFeedback').textContent = '';
+    updateProgress();
+  }, 0);
+}
+
+async function submitAnswers() {
+  const form = document.getElementById('lessonForm');
+  const data = new FormData(form);
+  data.append('_subject','Orbit Polish — Jadę na urlop — Ava');
+  data.append('_template','table');
+  data.append('_captcha','false');
+
+  const box = document.getElementById('finalFeedback');
+  box.textContent = 'Wysyłanie odpowiedzi…';
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/glorrass@gmail.com', {
+      method:'POST',
+      headers:{'Accept':'application/json'},
+      body:data
+    });
+    if (!res.ok) throw new Error('send failed');
+
+    const result = await res.json();
+    if (result.success === 'true' || result.success === true) {
+      box.innerHTML = '<span class="success">Odpowiedzi wysłane! Dziękuję.</span>';
+    } else {
+      throw new Error('not confirmed');
+    }
+  } catch(e) {
+    box.innerHTML =
+      '<span class="error">Nie udało się wysłać automatycznie. Skopiuj odpowiedzi lub zrób zrzut ekranu i wyślij je nauczycielowi. Przy pierwszym użyciu FormSubmit może wymagać potwierdzenia adresu e-mail.</span>';
+  }
+}
+
+updateProgress();
+</script>
+</body>
+</html>
