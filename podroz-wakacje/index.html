@@ -1,0 +1,294 @@
+
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orbit Polish — Podróż i wakacje</title>
+<style>
+:root{--bg:#090b1d;--p:#12152c;--p2:#191d3b;--line:#30365f;--t:#f4f2ff;--m:#b8bddb;--a:#a995ff;--b:#75d8f0;--good:#8ce0bd;--bad:#ff9caa}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 15% 0%,#25204d 0,transparent 38%),radial-gradient(ellipse at 95% 20%,#12334a 0,transparent 30%),var(--bg);color:var(--t);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:900px;margin:auto;padding:20px 14px 55px}
+.hero{padding:28px 22px;border:1px solid #484474;border-radius:24px;background:linear-gradient(135deg,#2d285bea,#121e3aeb)}
+.kicker{text-transform:uppercase;letter-spacing:.18em;color:var(--b);font-size:.75rem;font-weight:800}
+h1{font-size:clamp(1.8rem,6vw,3rem);line-height:1.08;margin:.5rem 0 .8rem}
+h2{font-size:1.3rem;margin:0 0 8px}
+p{margin:.5rem 0 1rem}
+.muted{color:var(--m)}.small{font-size:.88rem}
+.pills,.words,.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill,.words span{font-size:.82rem;padding:6px 10px;border:1px solid #59538a;border-radius:99px;background:#211f45;color:#e5e1ff}
+.progressbox,.section{margin:18px 0;padding:18px;border:1px solid var(--line);border-radius:20px;background:rgba(18,21,44,.94)}
+.progressrow{display:flex;justify-content:space-between;color:var(--m);font-size:.9rem;margin-bottom:8px}
+.track{height:8px;background:#282d4b;border-radius:20px;overflow:hidden}
+#progress{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:width .2s}
+.sectionhead{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.num{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;background:#2b2857;color:#e7e2ff;font-weight:800}
+.time{margin-left:auto;white-space:nowrap;color:var(--b);font-size:.8rem;font-weight:700}
+.task{padding:14px;margin:12px 0;background:var(--p2);border:1px solid #292f52;border-radius:14px}
+label{display:block;margin:9px 0 5px;font-weight:650;font-size:.94rem}
+input[type=text],input[type=url],textarea{width:100%;padding:11px 12px;border:1px solid #454c76;border-radius:10px;background:#0d1024;color:var(--t);font:inherit}
+textarea{min-height:88px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#858caf}
+.options{display:grid;gap:8px;margin:10px 0}
+.option{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #373d62;border-radius:10px;background:#11152c;font-weight:450}
+.option input{margin-top:5px;accent-color:var(--a)}
+button{border:0;border-radius:12px;padding:11px 15px;font:inherit;font-weight:750;cursor:pointer;background:linear-gradient(100deg,var(--a),var(--b));color:#10132b}
+button.secondary{background:#292d50;color:var(--t);border:1px solid #454b75}
+button:disabled{opacity:.55;cursor:wait}
+.feedback{margin-top:10px;font-weight:700}
+.good{color:var(--good)}.bad{color:var(--bad)}
+.tip{border-left:3px solid var(--b);padding:10px 12px;background:#101b30;border-radius:0 10px 10px 0;color:#d8e9f3}
+#status{padding:12px;border-radius:10px;margin-top:12px;display:none}
+footer{text-align:center;color:var(--m);font-size:.82rem;padding:25px 8px}
+@media(min-width:650px){.section{padding:24px}}
+@media print{body{background:white;color:#111}.hero,.section,.progressbox,.task{background:white;color:#111;border:1px solid #bbb}input,textarea{color:#111;background:white}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="kicker">Orbit Polish · samodzielna misja</div>
+<h1>Podróż, wakacje i rezerwacja noclegu</h1>
+<p>Twoja polska misja: zaplanować wyjazd, zarezerwować pokój i poradzić sobie w podróży. Pracuj we własnym tempie. Na następnej lekcji omówimy Twoje odpowiedzi i nagrania.</p>
+<div class="pills">
+<span class="pill">⏱ około 50 minut</span>
+<span class="pill">✦ Powtórzenie</span>
+<span class="pill">🎙 mówienie</span>
+<span class="pill">🪐 Orbit Polish</span>
+</div>
+</header>
+
+<div class="progressbox">
+<div class="progressrow"><span>Twój postęp</span><strong id="progressText">0 z 7 części</strong></div>
+<div class="track"><div id="progress"></div></div>
+</div>
+
+<form id="lessonForm">
+<section class="section" data-section="1">
+<div class="sectionhead"><div class="num">01</div><div><h2>Rozgrzewka: dokąd jedziesz?</h2><div class="muted small">Odpowiedz pełnymi zdaniami.</div></div><span class="time">5 min</span></div>
+<p>Wyobraź sobie, że planujesz tygodniowe wakacje. Wybierz miejsce i odpowiedz na pytania.</p>
+<div class="task">
+<label for="destination">Dokąd chcesz pojechać?</label>
+<input id="destination" name="Miejsce podróży" type="text" placeholder="Chcę pojechać do..." required>
+<label for="when">Kiedy i na jak długo?</label>
+<input id="when" name="Termin i długość" type="text" placeholder="Chcę wyjechać w lipcu na tydzień..." required>
+<label for="why">Dlaczego wybierasz to miejsce?</label>
+<textarea id="why" name="Powód wyboru" placeholder="Wybieram to miejsce, ponieważ..." required></textarea>
+</div>
+</section>
+
+<section class="section" data-section="2">
+<div class="sectionhead"><div class="num">02</div><div><h2>Słownictwo: jak podróżujesz?</h2><div class="muted small">Wybierz najlepszą odpowiedź.</div></div><span class="time">6 min</span></div>
+<div class="task">
+<p><b>1.</b> Chcesz pojechać z Krakowa do Warszawy. Sprawdzasz godziny odjazdu i przyjazdu.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q2a" value="a"> Rozkład jazdy</label>
+<label class="option"><input type="radio" name="q2a" value="b"> Karta dań</label>
+<label class="option"><input type="radio" name="q2a" value="c"> Prognoza pogody</label>
+</div>
+<p><b>2.</b> Chcesz mieć własny pokój i śniadanie w cenie.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q2b" value="a"> Bilet w jedną stronę</label>
+<label class="option"><input type="radio" name="q2b" value="b"> Pokój ze śniadaniem</label>
+<label class="option"><input type="radio" name="q2b" value="c"> Przystanek autobusowy</label>
+</div>
+<p><b>3.</b> Chcesz zapłacić za pokój po przyjeździe, a nie teraz.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q2c" value="a"> Płatność na miejscu</label>
+<label class="option"><input type="radio" name="q2c" value="b"> Bagaż podręczny</label>
+<label class="option"><input type="radio" name="q2c" value="c"> Przesiadka</label>
+</div>
+<div class="actions"><button type="button" class="secondary" onclick="checkQuiz(['q2a','q2b','q2c'],['a','b','a'],'fb2')">Sprawdź odpowiedzi</button></div>
+<div id="fb2" class="feedback" aria-live="polite"></div>
+</div>
+<div class="tip"><b>Przydatne słowa:</b> bilet w jedną stronę, bilet powrotny, odjazd, przyjazd, przesiadka, bagaż, rezerwacja, nocleg, śniadanie w cenie, płatność na miejscu.</div>
+</section>
+
+<section class="section" data-section="3">
+<div class="sectionhead"><div class="num">03</div><div><h2>Telefon do pensjonatu</h2><div class="muted small">Uzupełnij dialog, a potem przeczytaj go na głos, odgrywając obie role.</div></div><span class="time">7 min</span></div>
+<div class="task">
+<p><b>Recepcjonista:</b> Dzień dobry, pensjonat „Pod Gwiazdami”. W czym mogę pomóc?</p>
+<label for="d1">Ty: Dzień dobry. Chciałabym/chciałbym zarezerwować...</label>
+<input id="d1" name="Dialog rezerwacja 1" type="text" placeholder="np. pokój dwuosobowy na trzy noce" required>
+<p><b>Recepcjonista:</b> Na jaki termin?</p>
+<label for="d2">Ty: Przyjadę...</label>
+<input id="d2" name="Dialog rezerwacja 2" type="text" placeholder="np. 12 sierpnia, a wyjadę 15 sierpnia" required>
+<p><b>Recepcjonista:</b> Czy życzy sobie Pani/Pan śniadanie?</p>
+<label for="d3">Ty: Tak/Nie, ponieważ...</label>
+<input id="d3" name="Dialog rezerwacja 3" type="text" placeholder="Twoja odpowiedź" required>
+<p><b>Recepcjonista:</b> Pokój kosztuje 250 zł za noc. Czy to odpowiada?</p>
+<label for="d4">Ty: ...</label>
+<input id="d4" name="Dialog rezerwacja 4" type="text" placeholder="Zapytaj o płatność, parking albo anulowanie rezerwacji." required>
+</div>
+<div class="tip">Możesz zapytać: „Czy śniadanie jest wliczone w cenę?”, „Czy mogę zapłacić na miejscu?” albo „Czy mogę bezpłatnie anulować rezerwację?”.</div>
+</section>
+
+<section class="section" data-section="4">
+<div class="sectionhead"><div class="num">04</div><div><h2>Gramatyka w podróży: gdzie? dokąd? skąd?</h2><div class="muted small">Wybierz poprawną formę i ułóż własne zdania.</div></div><span class="time">7 min</span></div>
+<div class="task">
+<p><b>1.</b> Jutro jadę ___ Warszawy.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q4a" value="a"> do</label>
+<label class="option"><input type="radio" name="q4a" value="b"> w</label>
+<label class="option"><input type="radio" name="q4a" value="c"> na</label>
+</div>
+<p><b>2.</b> W sierpniu mieszkam ___ hotelu.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q4b" value="a"> do</label>
+<label class="option"><input type="radio" name="q4b" value="b"> w</label>
+<label class="option"><input type="radio" name="q4b" value="c"> z</label>
+</div>
+<p><b>3.</b> Wracam ___ wakacji w niedzielę.</p>
+<div class="options">
+<label class="option"><input type="radio" name="q4c" value="a"> z</label>
+<label class="option"><input type="radio" name="q4c" value="b"> do</label>
+<label class="option"><input type="radio" name="q4c" value="c"> na</label>
+</div>
+<p><b>4.</b> Które zdanie jest poprawne?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q4d" value="a"> Jadę do pociągiem.</label>
+<label class="option"><input type="radio" name="q4d" value="b"> Jadę pociągiem.</label>
+<label class="option"><input type="radio" name="q4d" value="c"> Jadę w pociąg.</label>
+</div>
+<div class="actions"><button type="button" class="secondary" onclick="checkQuiz(['q4a','q4b','q4c','q4d'],['a','b','a','b'],'fb4')">Sprawdź odpowiedzi</button></div>
+<div id="fb4" class="feedback" aria-live="polite"></div>
+<label for="grammar">Napisz po jednym własnym zdaniu z wyrażeniami „jadę do…”, „jestem w…”, „wracam z…”.</label>
+<textarea id="grammar" name="Własne zdania do dokąd gdzie skąd" placeholder="Jadę do...&#10;Jestem w...&#10;Wracam z..." required></textarea>
+</div>
+</section>
+
+<section class="section" data-section="5">
+<div class="sectionhead"><div class="num">05</div><div><h2>Problem w podróży</h2><div class="muted small">Zareaguj po polsku. Staraj się być uprzejma i konkretna.</div></div><span class="time">6 min</span></div>
+<div class="task">
+<label for="problem1">A. Twój pociąg jest opóźniony o godzinę. Informujesz hotel, że przyjedziesz później.</label>
+<textarea id="problem1" name="Problem pociąg opóźniony" placeholder="Dzień dobry, dzwonię, ponieważ..." required></textarea>
+<label for="problem2">B. W pokoju nie ma ręczników. Dzwonisz do recepcji.</label>
+<textarea id="problem2" name="Problem brak ręczników" placeholder="Przepraszam, mam problem..." required></textarea>
+<label for="problem3">C. Chcesz zapytać na dworcu, z którego peronu odjeżdża pociąg.</label>
+<textarea id="problem3" name="Problem peron" placeholder="Przepraszam, czy może mi Pan/Pani powiedzieć..." required></textarea>
+</div>
+</section>
+
+<section class="section" data-section="6">
+<div class="sectionhead"><div class="num">06</div><div><h2>🎙 Mówienie: moja podróż</h2><div class="muted small">Nagraj wypowiedź po polsku, około 1–2 minut.</div></div><span class="time">10 min</span></div>
+<p>Opowiedz o wyjeździe, który planujesz: dokąd jedziesz, kiedy, jakim środkiem transportu, gdzie nocujesz, co chcesz zobaczyć i co zrobisz, jeśli pogoda będzie zła. Możesz użyć telefonu i dowolnego narzędzia, np. Vocaroo, dyktafonu albo nagrania w chmurze.</p>
+<div class="words"><span>Chciałabym pojechać…</span><span>Planuję wyjazd…</span><span>Zarezerwuję…</span><span>Będę podróżować…</span><span>Chciałabym zwiedzić…</span><span>Jeśli będzie padać…</span></div>
+<div class="task">
+<label for="speakingNotes">Przygotuj krótkie notatki (nie musisz pisać całego tekstu).</label>
+<textarea id="speakingNotes" name="Notatki do nagrania" placeholder="Miejsce, termin, transport, nocleg, plan, budżet, plan awaryjny..."></textarea>
+<label for="audioLink">Wklej link do nagrania audio (Google Drive, Vocaroo lub inna usługa).</label>
+<input id="audioLink" name="Link do nagrania audio" type="url" placeholder="https://..." required>
+<p class="muted small">Ustaw dostęp do pliku tak, aby osoba mająca link mogła go odsłuchać.</p>
+</div>
+</section>
+
+<section class="section" data-section="7">
+<div class="sectionhead"><div class="num">07</div><div><h2>Mini-prezentacja: idealne wakacje</h2><div class="muted small">Poleć komuś idealne wakacje.</div></div><span class="time">9 min</span></div>
+<p>Nagraj drugą wypowiedź (około 1–2 minut). Powiedz, gdzie warto pojechać, co robić, gdzie nocować i jak zaplanować podróż.</p>
+<div class="task">
+<label for="presentation">Zapisz kilka słów o swojej rekomendacji.</label>
+<textarea id="presentation" name="Notatki do mini prezentacji" placeholder="Polecam..., ponieważ... Warto zobaczyć... Najlepiej zatrzymać się..."></textarea>
+<label for="presentationLink">Link do drugiego nagrania (jeśli nagrywasz osobno).</label>
+<input id="presentationLink" name="Link do mini prezentacji" type="url" placeholder="https://...">
+<label for="reflection">Co było dziś najłatwiejsze, a co najtrudniejsze?</label>
+<textarea id="reflection" name="Refleksja po lekcji" placeholder="Najłatwiejsze było... Najtrudniejsze było..." required></textarea>
+</div>
+</section>
+
+<section class="section">
+<div class="sectionhead"><div class="num">✓</div><div><h2>Wyślij swoją pracę</h2><div class="muted small">Sprawdź, czy wkleiłaś link do nagrania.</div></div></div>
+<div class="task">
+<label for="studentName">Imię</label>
+<input id="studentName" name="Imię uczennicy" type="text" placeholder="Twoje imię" required>
+<label for="notes">Wiadomość do nauczyciela (opcjonalnie)</label>
+<textarea id="notes" name="Wiadomość" placeholder="Np. link wymaga dostępu albo nie udało mi się nagrać drugiej części."></textarea>
+<p class="muted small">Po kliknięciu „Wyślij odpowiedzi” Twoje odpowiedzi zostaną wysłane e-mailem. Nie zamykaj strony, dopóki nie zobaczysz potwierdzenia.</p>
+<div class="actions">
+<button type="submit" id="submitBtn">Wyślij odpowiedzi ✦</button>
+<button type="button" class="secondary" onclick="window.print()">Zapisz / wydrukuj</button>
+</div>
+<div id="status" role="status"></div>
+</div>
+</section>
+</form>
+
+<footer>ORBIT POLISH · Małe kroki, wielka podróż ✦<br>Pracuj spokojnie. Wszystkie odpowiedzi omówimy na następnej lekcji.</footer>
+</div>
+
+<script>
+const totalSections=7;
+
+function updateProgress(){
+ let done=0;
+ document.querySelectorAll('[data-section]').forEach(s=>{
+  const text=[...s.querySelectorAll('input[type=text],input[type=url],textarea')];
+  const groups=[...new Set([...s.querySelectorAll('input[type=radio]')].map(x=>x.name))];
+  const textDone=text.some(x=>x.value.trim());
+  const radioDone=groups.length&&groups.every(n=>s.querySelector('input[name="'+n+'"]:checked'));
+  if(textDone||radioDone)done++;
+ });
+ document.getElementById('progress').style.width=(done/totalSections*100)+'%';
+ document.getElementById('progressText').textContent=done+' z '+totalSections+' części';
+}
+
+document.addEventListener('input',updateProgress);
+document.addEventListener('change',updateProgress);
+
+function checkQuiz(names,answers,id){
+ let score=0;
+ names.forEach((n,i)=>{
+  const c=document.querySelector('input[name="'+n+'"]:checked');
+  if(c&&c.value===answers[i])score++;
+ });
+ const el=document.getElementById(id);
+ el.textContent='Wynik: '+score+' / '+answers.length+'. '+(score===answers.length?'Świetnie! Wszystkie odpowiedzi są poprawne.':'Sprawdź odpowiedzi i spróbuj jeszcze raz.');
+ el.className='feedback '+(score===answers.length?'good':'bad');
+}
+
+document.getElementById('lessonForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const f=e.currentTarget;
+ if(!f.reportValidity())return;
+ const btn=document.getElementById('submitBtn');
+ const st=document.getElementById('status');
+ const data=new FormData(f);
+
+ data.append('_subject','Orbit Polish — praca indywidualna: podróż i wakacje');
+ data.append('_template','table');
+ data.append('_captcha','false');
+
+ btn.disabled=true;
+ btn.textContent='Wysyłanie…';
+ st.style.display='block';
+ st.textContent='Wysyłam odpowiedzi…';
+
+ try{
+  const r=await fetch('https://formsubmit.co/ajax/glorrass@gmail.com',{
+   method:'POST',
+   headers:{Accept:'application/json'},
+   body:data
+  });
+  const j=await r.json();
+
+  if(r.ok&&(j.success===true||j.success==='true')){
+   st.textContent='Gotowe! Twoje odpowiedzi zostały wysłane. Dziękuję! ✦';
+   st.style.background='#12352f';
+   st.style.color='#a8f0d4';
+   btn.textContent='Wysłano ✓';
+  }else{
+   throw Error(j.message||'Błąd wysyłania');
+  }
+ }catch(err){
+  st.textContent='Nie udało się wysłać odpowiedzi automatycznie. Spróbuj ponownie. Przy pierwszym użyciu sprawdź, czy FormSubmit nie prosi o potwierdzenie adresu e-mail.';
+  st.style.background='#40212e';
+  st.style.color='#ffd0d7';
+  btn.disabled=false;
+  btn.textContent='Spróbuj wysłać ponownie';
+ }
+});
+
+updateProgress();
+</script>
+</body>
+</html>
